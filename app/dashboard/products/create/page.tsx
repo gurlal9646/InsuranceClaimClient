@@ -3,7 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
 
-function Create() {
+export default function Page() {
     const [formData, setFormData] = useState({
         ProductName: '',
         Model: '',
@@ -127,4 +127,3 @@ function Create() {
     </main>);
 }
 
-export default Create;
