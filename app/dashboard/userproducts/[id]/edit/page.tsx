@@ -34,7 +34,7 @@ useEffect(() => {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await axios.get('http://localhost:4000/api/product/list', {
+                const response = await axios.get('https://insurance-claim-server.vercel.app/api/product/list', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -59,7 +59,7 @@ useEffect(() => {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await fetch(`http://localhost:4000/api/userProducts/getProductById/${params.id}`, {
+                const response = await fetch(`https://insurance-claim-server.vercel.app/api/userProducts/getProductById/${params.id}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -131,7 +131,7 @@ const onSubmit = async (e: { preventDefault: () => void }) => {
         const token = localStorage.getItem('token');
 
         const response = await axios.put(
-            'http://localhost:4000/api/userProducts/update/'+ UserProductId,
+            'https://insurance-claim-server.vercel.app/api/userProducts/update/'+ UserProductId,
             data,
             {
                 headers: {

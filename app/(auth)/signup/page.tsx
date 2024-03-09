@@ -37,7 +37,7 @@ const Register = () => {
         password: password,
     };
     try {
-        const response = await axios.post('http://localhost:5000/api/users', data, config);
+        const response = await axios.post('https://insurance-claim-server.vercel.app/api/users/signup', data, config);
         localStorage.setItem('token', response.data.token);
 
         const decodeddata = jwtDecode(response.data.token);

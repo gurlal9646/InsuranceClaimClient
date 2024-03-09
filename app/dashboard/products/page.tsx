@@ -15,7 +15,7 @@ export default function Page() {
         
         // Make sure token exists
         if (token) {
-            const response = await fetch('http://localhost:4000/api/product/list', {
+            const response = await fetch('https://insurance-claim-server.vercel.app/api/product/list', {
                 method: 'GET',
                 headers: {
                 'Authorization': `Bearer ${token}`

@@ -55,7 +55,7 @@ export default function Page() {
       const token = localStorage.getItem('token');
 
       const response = await axios.post(
-        'http://localhost:4000/api/userProducts/register',
+        'https://insurance-claim-server.vercel.app/api/userProducts/register',
         data,
         {
           headers: {
@@ -104,7 +104,7 @@ export default function Page() {
 
                 // Make sure token exists
                 if (token) {
-                    const response = await axios.get('http://localhost:4000/api/product/list', {
+                    const response = await axios.get('https://insurance-claim-server.vercel.app/api/product/list', {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`

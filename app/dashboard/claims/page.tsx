@@ -16,7 +16,7 @@ export default function Page() {
       // Make sure token exists
       if (token) {
         const response = await axios.get(
-          'http://localhost:4000/api/claims/list',
+          'https://insurance-claim-server.vercel.app/api/claims/list',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ export default function Page() {
                 // Make sure token exists
                 if (token) {
                     // Call the API to delete the user product
-                    const response = await axios.delete(`http://localhost:4000/api/claims/delete/${claimId}`, {
+                    const response = await axios.delete(`https://insurance-claim-server.vercel.app/api/claims/delete/${claimId}`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }

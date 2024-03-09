@@ -1,16 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-//import { redirect } from 'next/navigation';
-
 import { CalendarIcon,DocumentPlusIcon, ShoppingCartIcon  } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { object, string } from 'zod';
 import Swal from 'sweetalert2';
-import { useRouter } from 'next/router';
-
-
-
 
 const schema = object({
   UserProductId: string()
@@ -37,7 +31,7 @@ export default function Page() {
             // Make sure token exists
             if (token) {
                 try {
-                    const response = await axios.get(`http://localhost:4000/api/userProducts/list`, {
+                    const response = await axios.get(`https://insurance-claim-server.vercel.app/api/userProducts/list`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -95,7 +89,7 @@ export default function Page() {
       const token = localStorage.getItem('token');
 
       const response = await axios.post(
-        'http://localhost:4000/api/claims/create',
+        'https://insurance-claim-server.vercel.app/api/claims/create',
         data,
         {
           headers: {

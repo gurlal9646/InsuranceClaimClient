@@ -3,7 +3,6 @@ import { formatDateToLocal } from '@/app/lib/utils';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { json } from 'stream/consumers';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -18,7 +17,7 @@ export default function Page() {
             // Make sure token exists
             if (token) {
                 try {
-                    const response = await axios.get(`http://localhost:4000/api/userProducts/list`, {
+                    const response = await axios.get(`https://insurance-claim-server.vercel.app/api/userProducts/list`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -67,7 +66,7 @@ export default function Page() {
                     // Make sure token exists
                     if (token) {
                         // Call the API to delete the user product
-                        const response = await axios.delete(`http://localhost:4000/api/userProducts/delete/${userProductId}`, {
+                        const response = await axios.delete(`https://insurance-claim-server.vercel.app/api/userProducts/delete/${userProductId}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }

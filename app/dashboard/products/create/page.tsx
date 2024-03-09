@@ -34,7 +34,7 @@ export default function Page() {
         const token = localStorage.getItem('token');
 
         const response = await axios.post(
-        'http://localhost:4000/api/product/create',
+        'https://insurance-claim-server.vercel.app/api/product/create',
         data,
         {
             headers: {

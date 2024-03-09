@@ -32,7 +32,7 @@ export default function Page({ params }: { params: { id: string } }) {
       if (token) {
         try {
           const response = await axios.get(
-            `http://localhost:4000/api/userProducts/list`,
+            `https://insurance-claim-server.vercel.app/api/userProducts/list`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ export default function Page({ params }: { params: { id: string } }) {
         const token = localStorage.getItem('token');
         if (token) {
           const response = await fetch(
-            `http://localhost:4000/api/claims/${params.id}`,
+            `https://insurance-claim-server.vercel.app/api/claims/${params.id}`,
             {
               method: 'GET',
               headers: {
@@ -140,7 +140,7 @@ export default function Page({ params }: { params: { id: string } }) {
       const token = localStorage.getItem('token');
 
       const response = await axios.put(
-        'http://localhost:4000/api/claims/update/'+ClaimId,
+        'https://insurance-claim-server.vercel.app/api/claims/update/'+ClaimId,
         data,
         {
           headers: {

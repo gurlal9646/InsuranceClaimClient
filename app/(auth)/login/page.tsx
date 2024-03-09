@@ -40,7 +40,7 @@ function Login() {
       console.log(data);
       try {
         const response = await axios.post(
-          "http://localhost:4000/api/user/login",
+          "https://insurance-claim-server.vercel.app/api/user/login",
           data,
           config
         );
