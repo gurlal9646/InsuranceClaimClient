@@ -1,13 +1,14 @@
-"use client";
-import { useState, useContext } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+'use client';
+import { useState, useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-function Login() {
+export default function Page() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    Username: "",
-    Password: "",
+    Username: '',
+    Password: '',
   });
 
   // const auth = useContext(AuthContext) as AuthContextType;
@@ -19,45 +20,66 @@ function Login() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(Username);
-
     let formValid = true;
-    const emailPattern = "";
-    if (Username === "") {
+    if (Username === '') {
       formValid = false;
     }
 
     if (formValid) {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
       const data = {
         Username: Username,
         Password: Password,
       };
-      console.log(data);
       try {
         const response = await axios.post(
-          "https://insurance-claim-server.vercel.app/api/user/login",
+          'https://insurance-claim-server.vercel.app/api/user/login',
           data,
-          config
         );
-        console.log(response);
-        localStorage.setItem("token", response.data);
-        router.push("/dashboard"); //<-need to change this later
+        if (response.status === 200) {
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('roleId', response.data.RoleID);
+          localStorage.setItem('userId', response.data.UserID);
+          router.push('/dashboard/claims');
+        } else {
+
+            // Handle other errors
+            Swal.fire({
+              text: response.data,
+              icon: 'error',
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          
+        }
       } catch (err: any) {
-        console.log(err);
+        if (err.response.status === 401) {
+          Swal.fire({
+            text: err.response.data,
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        } else {
+          console.log(err);
+          Swal.fire({
+            text: 'An error occurred',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
       }
     }
   };
   return (
-    <main className="h-screen flex items-center justify-center bg-gray-50">
-      <div id="card" className="bg-white rounded-lg shadow-md p-8 max-w-md w-full space-y-4">
+    <main className="flex h-screen items-center justify-center bg-gray-50">
+      <div
+        id="card"
+        className="w-full max-w-md space-y-4 rounded-lg bg-white p-8 shadow-md"
+      >
         <div id="card-title" className="text-center">
           <h2 className="text-2xl font-bold">LOGIN</h2>
-          <div className="h-1 w-24 bg-blue-500 mx-auto mt-2"></div>
+          <div className="mx-auto mt-2 h-1 w-24 bg-blue-500"></div>
         </div>
         <form onSubmit={(e) => onSubmit(e)} className="space-y-4">
           <label htmlFor="user-email" className="block">
@@ -69,7 +91,7 @@ function Login() {
             name="Username"
             value={Username}
             onChange={(e) => onChange(e)}
-            className="border-b-2 border-blue-500 w-full py-1"
+            className="w-full border-b-2 border-blue-500 py-1"
             required
           />
           <label htmlFor="user-password" className="block">
@@ -81,29 +103,30 @@ function Login() {
             name="Password"
             value={Password}
             onChange={(e) => onChange(e)}
-            className="border-b-2 border-blue-500 w-full py-1"
+            className="w-full border-b-2 border-blue-500 py-1"
             required
           />
           {/* <a href="#" className="text-sm text-blue-500 hover:underline">
             Forgot password?
           </a> */}
-          <br/>
+          <br />
           <div className="text-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+              className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
             >
               LOGIN
             </button>
           </div>
-          <br/>
-          <a href="/signup" className="text-sm text-gray-600">
-            Don't have an account yet? Sign up
-          </a>
+          <br />
+          <p className="text-center text-gray-600">
+            Don't have an account yet?
+            <a href="/signup" className="text-blue-500">
+              Sign up
+            </a>
+          </p>
         </form>
       </div>
     </main>
   );
 }
-
-export default Login;

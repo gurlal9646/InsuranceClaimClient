@@ -7,87 +7,156 @@ import { useRouter } from 'next/navigation';
 // import AuthContext, { AuthContextType } from '@/context/AuthContext';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Register = () => {
-    // const auth = useContext(AuthContext) as AuthContextType;
-    const router = useRouter();
-    const [formData2, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        password2: '',
-    });
+export default function Page() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    Username: '',
+    Password: '',
+    CellphoneNo: '',
+    Email: '',
+    Name: '',
+    Address: '',
+  });
 
-    const { name, email, password, password2 } = formData2;
+  const { Username, Password, CellphoneNo, Email, Name, Address } = formData;
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-        setFormData({ ...formData2, [e.target.name]: e.target.value });
+  const onChange = (e: any) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
 
     const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     };
 
     const data = {
-        name: name,
-        email: email,
-        password: password,
+      Username,
+      Password,
+      CellphoneNo,
+      Email,
+      Name,
+      Address,
     };
+
     try {
-        const response = await axios.post('https://insurance-claim-server.vercel.app/api/users/signup', data, config);
-        localStorage.setItem('token', response.data.token);
-
-        const decodeddata = jwtDecode(response.data.token);
-        console.log(decodeddata);
-        // auth.login();
-        router.push('/posts');
-    } catch (e: any) {
-        console.log('error ', e.message);
+      const response = await axios.post(
+        'https://insurance-claim-server.vercel.app/api/user/signup',
+        data,
+        config,
+      );
+      console.log('Response:', response.data);
+      // Handle response as needed
+      router.push('/posts'); // Redirect after successful submission
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error
     }
-};
-return (
-    <div className="container mx-auto mt-5">
-        <div className="flex justify-center">
-            <div className="w-full md:w-1/2">
-                <div className="bg-white shadow-md rounded-md p-6">
-                    <h2 className="text-xl font-bold mb-4">User Registration Form</h2>
-                    <form>
-                        <div className="mb-4">
-                            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-                            <input type="text" className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500" id="username" placeholder="Enter username" />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500" id="password" placeholder="Enter password" />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="cellphone" className="block text-sm font-medium text-gray-700">Cellphone Number</label>
-                            <input type="text" className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500" id="cellphone" placeholder="Enter cellphone number" />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
-                            <input type="email" className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
-                            <small id="emailHelp" className="block text-xs text-gray-500">We'll never share your email with anyone else.</small>
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                            <input type="text" className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500" id="name" placeholder="Enter name" />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
-                            <input type="text" className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500" id="address" placeholder="Enter address" />
-                        </div>
-                        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">Submit</button>
-                    </form>
-                </div>
-            </div>
+  };
+  return (
+    <main className="flex h-screen items-center justify-center bg-gray-50">
+      <div
+        id="card"
+        className="w-full max-w-md space-y-4 rounded-lg bg-white p-8 shadow-md"
+      >
+        <div id="card-title" className="text-center">
+          <h2 className="text-2xl font-bold">User Registration</h2>
+          <div className="mx-auto mt-2 h-1 w-24 bg-blue-500"></div>
         </div>
-    </div>
-);
+        <form onSubmit={onSubmit} className="space-y-4">
+          <label htmlFor="username" className="block">
+            Username
+          </label>
+          <input
+            id="username"
+            type="text"
+            name="Username"
+            value={Username}
+            onChange={onChange}
+            className="w-full border-b-2 border-blue-500 py-1"
+            required
+          />
+          <label htmlFor="password" className="block">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            name="Password"
+            value={Password}
+            onChange={onChange}
+            className="w-full border-b-2 border-blue-500 py-1"
+            required
+          />
+          <label htmlFor="cellphone" className="block">
+            Cellphone Number
+          </label>
+          <input
+            id="cellphone"
+            type="text"
+            name="CellphoneNo"
+            value={CellphoneNo}
+            onChange={onChange}
+            className="w-full border-b-2 border-blue-500 py-1"
+            required
+          />
+          <label htmlFor="email" className="block">
+            Email address
+          </label>
+          <input
+            id="email"
+            type="email"
+            name="Email"
+            value={Email}
+            onChange={onChange}
+            className="w-full border-b-2 border-blue-500 py-1"
+            required
+          />
+          <label htmlFor="name" className="block">
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            name="Name"
+            value={Name}
+            onChange={onChange}
+            className="w-full border-b-2 border-blue-500 py-1"
+            required
+          />
+          <label htmlFor="address" className="block">
+            Address
+          </label>
+          <input
+            id="address"
+            type="text"
+            name="Address"
+            value={Address}
+            onChange={onChange}
+            className="w-full border-b-2 border-blue-500 py-1"
+            required
+          />
+          <br />
+          <div className="text-center">
+            <button
+              type="submit"
+              className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            >
+              Sign Up
+            </button>
+          </div>
+          <br />
+          <p className="text-center text-gray-600">
+            Already have an account?{' '}
+            <a href="/login" className="text-blue-500">
+              Login
+            </a>
+          </p>
+        </form>
+      </div>
+    </main>
+  );
 }
-
-
-export default Register;
