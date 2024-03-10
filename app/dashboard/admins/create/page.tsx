@@ -9,7 +9,7 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline';
 import Swal from 'sweetalert2';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const router = useRouter();
