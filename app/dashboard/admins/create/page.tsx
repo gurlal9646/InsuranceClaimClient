@@ -9,19 +9,21 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 export default function Page() {
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     Username: '',
-    Password:'',
+    Password: '',
     CellphoneNo: '',
     Email: '',
     Name: '',
     Address: '',
   });
 
-  const { Username,Password, CellphoneNo, Email, Name, Address } = formData;
+  const { Username, Password, CellphoneNo, Email, Name, Address } = formData;
 
   const onChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,7 +32,6 @@ export default function Page() {
   const onSubmit = async (e: any) => {
     e.preventDefault();
 
-
     const data = {
       Username,
       Password,
@@ -38,21 +39,22 @@ export default function Page() {
       Email,
       Name,
       Address,
-      RoleID:1
+      RoleID: 1,
     };
 
     try {
       const response = await axios.post(
         'https://insurance-claim-server.vercel.app/api/user/signup/',
-        data
+        data,
       );
       if (response.status === 200) {
         Swal.fire({
-          text: response.data,
+          text: `Account created successfully!`,
           icon: 'success',
           showConfirmButton: false,
           timer: 3000,
         });
+        router.push('/dashboard/admins');
       } else {
         Swal.fire({
           text: 'Something went wrong.',
