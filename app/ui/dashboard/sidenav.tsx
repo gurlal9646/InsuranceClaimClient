@@ -3,19 +3,29 @@ import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import InsuranceLogo from '@/app/ui/insurance-logo';
+import Swal from 'sweetalert2';
 
 export default function SideNav() {
   const handleLogout = () => {
-    // Clear localStorage
-    localStorage.clear();
-    // Redirect to the login page
-    window.location.href = `${window.location.origin}/login`;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out of your account',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, log me out!',
+    }).then((result: { isConfirmed: any }) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        // Redirect to the login page
+        window.location.href = `${window.location.origin}/login`;
+      }
+    });
   };
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
-      <span
-        className="mb-2 flex h-20 items-end justify-start rounded-md bg-blue-600 p-4 md:h-40"
-      >
+      <span className="mb-2 flex h-20 items-end justify-start rounded-md bg-blue-600 p-4 md:h-40">
         <div className="w-32 text-white md:w-40">
           <InsuranceLogo />
         </div>

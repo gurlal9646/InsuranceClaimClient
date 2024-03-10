@@ -175,13 +175,16 @@ export default function Page() {
   return (
     <div className="rounded-md bg-white p-6 shadow-md">
       <h1 className="mb-4 text-2xl font-bold">Claims</h1>
-      <div className="mb-4">
-        <Link href="/dashboard/claims/create">
-          <span className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-500">
-            Add Claim
-          </span>
-        </Link>
-      </div>
+      {roleId === '2' && (
+        <div className="mb-4">
+          <Link href="/dashboard/claims/create">
+            <span className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-500">
+              Add Claim
+            </span>
+          </Link>
+        </div>
+      )}
+
       <div className="overflow-x-auto">
         {claims.map((claim: any, index) => (
           <div
@@ -227,7 +230,7 @@ export default function Page() {
                 {claim.Status === 'Pending' && (
                   <div>
                     <button
-                      className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600 mr-5"
+                      className="mr-5 rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600"
                       onClick={() =>
                         handleClaimStatus(claim.ClaimId, 'Approved')
                       }
