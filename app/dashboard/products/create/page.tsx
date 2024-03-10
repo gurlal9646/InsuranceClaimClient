@@ -262,7 +262,7 @@ export default function Page() {
         >
           Cancel
         </Link>
-        <button type="submit" className='flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover'>Add Product</button>
+        <button type="submit" className='flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover'>Save</button>
       </div>
     </form>
   );

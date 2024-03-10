@@ -183,7 +183,7 @@ export default function Page() {
           type="submit"
           className="flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-600"
         >
-          Save Changes
+          Save
         </button>
       </div>
     </form>

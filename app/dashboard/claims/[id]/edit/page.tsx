@@ -297,7 +297,7 @@ export default function Page({ params }: { params: { id: string } }) {
           type="submit"
           className="hover flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors"
         >
-          Add Claim
+          Save
         </button>
       </div>
     </form>
