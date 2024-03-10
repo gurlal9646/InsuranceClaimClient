@@ -1,11 +1,8 @@
 'use client';
 import { useState, useContext } from 'react';
-import Link from 'next/link';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
-// import AuthContext, { AuthContextType } from '@/context/AuthContext';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import Swal from 'sweetalert2';
 
 export default function Page() {
   const router = useRouter();
@@ -21,7 +18,7 @@ export default function Page() {
   const { Username, Password, CellphoneNo, Email, Name, Address } = formData;
 
   const onChange = (e: any) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e: any) => {
@@ -48,9 +45,19 @@ export default function Page() {
         data,
         config,
       );
-      console.log('Response:', response.data);
-      // Handle response as needed
-      router.push('/posts'); // Redirect after successful submission
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('roleId', response.data.RoleID);
+        localStorage.setItem('userId', response.data.UserID);
+        router.push('/dashboard/claims');
+      } else {
+        Swal.fire({
+          text: response.data,
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
     } catch (error) {
       console.error('Error:', error);
       // Handle error

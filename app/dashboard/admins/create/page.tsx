@@ -1,7 +1,6 @@
 'use client';
-import { useState, useContext, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import {
   DocumentCheckIcon,
   EnvelopeIcon,
@@ -12,59 +11,17 @@ import {
 import Swal from 'sweetalert2';
 
 export default function Page() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const userId = localStorage.getItem('userId');
-        const roleId = localStorage.getItem('roleId');
-
-        if (token) {
-          const response = await axios.get(
-            roleId === '2'
-              ? 'https://insurance-claim-server.vercel.app/api/user/list/' +
-                  userId
-              : 'https://insurance-claim-server.vercel.app/api/user/adminlist/' +
-                  userId,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          );
-          if (response.data) {
-            const user = {
-              Username: response.data.Username,
-              CellphoneNo: response.data.CellphoneNo,
-              Email: response.data.Email,
-              Name: response.data.Name,
-              Address: response.data.Address,
-            };
-            setFormData(user);
-          } else {
-            console.error('Error fetching data:', response);
-          }
-        } else {
-          console.error('Token not found in localStorage');
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData(); // Call the fetchData function when the component mounts
-  }, []);
 
   const [formData, setFormData] = useState({
     Username: '',
+    Password:'',
     CellphoneNo: '',
     Email: '',
     Name: '',
     Address: '',
   });
 
-  const { Username, CellphoneNo, Email, Name, Address } = formData;
+  const { Username,Password, CellphoneNo, Email, Name, Address } = formData;
 
   const onChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -76,23 +33,18 @@ export default function Page() {
 
     const data = {
       Username,
+      Password,
       CellphoneNo,
       Email,
       Name,
       Address,
+      RoleID:1
     };
 
     try {
-      const userId = localStorage.getItem('userId');
-      const token = localStorage.getItem('token');
-      const response = await axios.put(
-        'https://insurance-claim-server.vercel.app/api/user/update/' + userId,
-        data,
-        {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
+      const response = await axios.post(
+        'https://insurance-claim-server.vercel.app/api/user/signup/',
+        data
       );
       if (response.status === 200) {
         Swal.fire({
@@ -127,6 +79,23 @@ export default function Page() {
             type="text"
             name="Username"
             value={Username}
+            onChange={onChange}
+            className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+            required
+          />
+          <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+        </div>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="username" className="mb-2 block text-sm font-medium">
+          Password
+        </label>
+        <div className="relative mt-2 rounded-md">
+          <input
+            id="Password"
+            type="password"
+            name="Password"
+            value={Password}
             onChange={onChange}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
             required

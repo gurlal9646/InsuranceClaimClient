@@ -47,11 +47,11 @@ export default function Page() {
         fetchData();
     }, []); 
 
-    const handleDelete = async (userProductId: any) => {
+    const handleDelete = async (userId: any) => {
         // Show a confirmation dialog using SweetAlert
         Swal.fire({
             title: 'Are you sure?',
-            text: 'You will not be able to recover this user product!',
+            text: 'You will not be able to recover this user!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -66,7 +66,7 @@ export default function Page() {
                     // Make sure token exists
                     if (token) {
                         // Call the API to delete the user product
-                        const response = await axios.delete(`https://insurance-claim-server.vercel.app/api/userProducts/delete/${userProductId}`, {
+                        const response = await axios.delete(`https://insurance-claim-server.vercel.app/api/user/delete/${userId}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -75,16 +75,16 @@ export default function Page() {
                         if (response.status === 200) {
                             // If the deletion is successful, update the products state to reflect the change
                                fetchData();       
-                          Swal.fire('Deleted!', 'Your user product has been deleted.', 'success');
+                          Swal.fire('Deleted!', 'Your user has been deleted.', 'success');
                         } else {
-                            Swal.fire('Error!', 'Failed to delete the user product.', 'error');
+                            Swal.fire('Error!', 'Failed to delete the user.', 'error');
                         }
                     } else {
                         console.error('Token not found in localStorage');
                     }
                 } catch (error) {
-                    console.error('Error deleting user product:', error);
-                    Swal.fire('Error!', 'Failed to delete the user product.', 'error');
+                    console.error('Error deleting user :', error);
+                    Swal.fire('Error!', 'Failed to delete the user.', 'error');
                 }
             }
         });
@@ -93,11 +93,6 @@ export default function Page() {
     return (
         <div className="bg-white shadow-md rounded-md p-6">
             <h1 className="text-2xl font-bold mb-4">Users</h1>
-            <div className="mb-4">
-                <Link href="/dashboard/users/create">
-                    <span className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500">Add User</span>
-                </Link>
-            </div>
             <div className="grid grid-cols-3 gap-4">
                 {users.map((user:any, index) => (
                     <div key={index} className="bg-gray-100 rounded-md p-4 flex items-center justify-between">
@@ -111,9 +106,6 @@ export default function Page() {
 
                         </div>
                         <div className="flex space-x-4">
-                            <Link className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" href={`/dashboard/users/${user.UserID}/edit`}>
-                                <PencilIcon className="w-5 h-5" />
-                            </Link>
                             <button className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600" onClick={() => handleDelete(user.UserID)}>
                                 <TrashIcon className="w-5 h-5" />
                             </button>
