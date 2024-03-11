@@ -1,5 +1,6 @@
 'use client';
 import { formatCurrency } from '@/app/lib/utils';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -124,16 +125,19 @@ export default function Page() {
                 Warranty Details: {product.WarrantyDetails}
               </p>
             </div>
-            <div className="mt-4 flex justify-between">
-              <div className="flex space-x-4">
-                <button className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-                  Edit
-                </button>
-                <button className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-                onClick={() => handleDelete(product.ProductID)}>
-                  Delete
-                </button>
-              </div>
+            <div className="flex space-x-4">
+              <Link
+                className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                href={`/dashboard/products/${product.ProductID}/edit`}
+              >
+                <PencilIcon className="h-5 w-5" />
+              </Link>
+              <button
+                className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                onClick={() => handleDelete(product.ProductID)}
+              >
+                <TrashIcon className="h-5 w-5" />
+              </button>
             </div>
           </div>
         ))}

@@ -59,7 +59,7 @@ useEffect(() => {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await fetch(`https://insurance-claim-server.vercel.app/api/userProducts/getProductById/${params.id}`, {
+                const response = await fetch(`https://insurance-claim-server.vercel.app/api/userProducts/getUserProductById/${params.id}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`

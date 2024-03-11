@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DocumentPlusIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { object, string } from 'zod'; // Import 'string' from zod
+import { number, object, string } from 'zod'; // Import 'string' from zod
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 
@@ -13,7 +13,7 @@ const schema = object({
   Model: string().min(1, { message: 'Model is required.' }),
   Manufacturer: string().min(1, { message: 'Manufacturer is required.' }),
   Description: string().min(1, { message: 'Description is required.' }),
-  Price: string().min(1, { message: 'Price is required.' }), // Change Price to string since it's a string in the schema
+  Price: string().min(1, { message: 'Price is required.' }),
   WarrantyDetails: string().min(1, { message: 'Warranty details are required.' }),
   Availability: string().optional() // Availability can be optional, you can further refine validation
 });
@@ -24,6 +24,7 @@ const delay = (delayInms: number | undefined) => {
 
 export default function Page() {
   const [formData, setFormData] = useState({
+    ProductId:'',
     ProductName: '',
     Model: '',
     Manufacturer: '',
@@ -257,7 +258,7 @@ export default function Page() {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/userproducts"
+          href="/dashboard/products"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
